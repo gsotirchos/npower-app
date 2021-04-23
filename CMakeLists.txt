@@ -11,32 +11,14 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# QtCreator supports the following variables for Android, which are identical to qmake Android variables.
-# Check http://doc.qt.io/qt-5/deployment-android.html for more information.
-# They need to be set before the find_package(Qt5 ...) call.
 
-#if(ANDROID)
-#    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
-#    if (ANDROID_ABI STREQUAL "armeabi-v7a")
-#        set(ANDROID_EXTRA_LIBS
-#            ${CMAKE_CURRENT_SOURCE_DIR}/path/to/libcrypto.so
-#            ${CMAKE_CURRENT_SOURCE_DIR}/path/to/libssl.so)
-#    endif()
-#endif()
-
+set(Qt5Quick_DIR "/usr/lib/aarch64-linux-gnu/cmake/Qt5")
 find_package(Qt5 COMPONENTS Core Quick REQUIRED)
 
-if(ANDROID)
-    add_library(npower_app SHARED
-      main.cpp
-      qml.qrc
-    )
-else()
-    add_executable(npower_app
-      main.cpp
-      qml.qrc
-    )
-endif()
+add_executable(npower_app
+  main.cpp
+  qml.qrc
+)
 
 target_compile_definitions(npower_app
   PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
