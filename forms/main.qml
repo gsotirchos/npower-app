@@ -1,32 +1,102 @@
 import QtQuick 2.12
-import QtQuick.Controls 2.3
-import QtQuick.Layouts 1.3
+import QtQuick.Controls 2.5
 import QtQuick.VirtualKeyboard 2.4
-import com.company.someclass 1.0
 
 ApplicationWindow {
+    id: window
     visible: true
-    width: 640
+    width: 800
     height: 480
-    title: qsTr("Hello World")
+    title: qsTr("Title")
 
-    MyClass {
-        id: someclass
-    }
 
-    Row {
-        anchors.top: parent.top
-        anchors.topMargin: 8
-        anchors.horizontalCenterOffset: 0
-        anchors.horizontalCenter: parent.horizontalCenter
-        spacing: 10
+    header: ToolBar {
+        id: toolBar
+        contentHeight: toolButton.implicitHeight
 
-        Button {
-            id: btnSetVar
-            text: "Set var"
+        ToolButton {
+            id: toolButton
+            text: stackView.depth > 1 ? "\u25C0" : "\u2630"
+            font.pixelSize: Qt.application.font.pixelSize * 1.6
             onClicked: {
-                someclass.setToOne
+                if (stackView.depth > 1) {
+                    stackView.pop()
+                } else {
+                    drawer.open()
+                }
             }
         }
+
+        Label {
+            text: stackView.currentItem.title
+            anchors.centerIn: parent
+        }
+
+        BatteryIndicatorForm {
+            id: batteryIndicator
+            width: 100
+            height: parent.height * 0.5
+            anchors.right: parent.right
+            anchors.rightMargin: 20
+            anchors.verticalCenter: parent.verticalCenter
+        }
+    }
+
+    Drawer {
+        id: drawer
+        width: window.width * 0.33
+        height: window.height
+
+        Column {
+            anchors.fill: parent
+
+            ItemDelegate {
+                text: qsTr("About")
+                width: parent.width
+                onClicked: {
+                    stackView.push("AboutForm.ui.qml")
+                    drawer.close()
+                }
+            }
+        }
+    }
+
+    StackView {
+        id: stackView
+        initialItem: "ChallengeSelectionForm.ui.qml"
+        anchors.fill: parent
+
+//        pushEnter: Transition {
+//            PropertyAnimation {
+//                property: "opacity"
+//                from: 0
+//                to: 1
+//                duration: 200
+//            }
+//        }
+//        pushExit: Transition {
+//            PropertyAnimation {
+//                property: "opacity"
+//                from: 0
+//                to: 1
+//                duration: 200
+//            }
+//        }
+//        popEnter: Transition {
+//            PropertyAnimation {
+//                property: "opacity"
+//                from: 0
+//                to: 1
+//                duration: 200
+//            }
+//        }
+//        popExit: Transition {
+//            PropertyAnimation {
+//                property: "opacity"
+//                from: 0
+//                to: 1
+//                duration: 200
+//            }
+//        }
     }
 }
