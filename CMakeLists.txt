@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(untitled LANGUAGES CXX)
+project(npower-app LANGUAGES CXX)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
@@ -13,12 +13,12 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Qt5 COMPONENTS Core Quick REQUIRED)
 
-add_executable(untitled
+add_executable(npower-app
   main.cpp
   forms/qml.qrc
 )
 
-target_compile_definitions(untitled
+target_compile_definitions(npower-app
   PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
-target_link_libraries(untitled
+target_link_libraries(npower-app
   PRIVATE Qt5::Core Qt5::Quick)
