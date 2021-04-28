@@ -15,7 +15,7 @@ using namespace fake_sensors;
 HallSensor::HallSensor() = default;
 HallSensor::~HallSensor() = default;
 
-int HallSensor::readValue() const {
+bool HallSensor::readValue() const {
     srand(time(NULL));
     int value = rand()%2;
     cout << "HALL VALUE: " << value << endl;

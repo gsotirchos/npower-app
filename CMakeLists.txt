@@ -12,17 +12,24 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Qt5 COMPONENTS Core Quick REQUIRED)
+include("${PROJECT_SOURCE_DIR}/cmake/CPMdependencies.cmake")
 
 add_compile_options(-Wall -Wextra -pedantic)
 
-include("${PROJECT_SOURCE_DIR}/cmake/CPMdependencies.cmake")
+option(WITH_FAKE_SENSORS "Use simulated fake sensors." ON)
+
+if(WITH_FAKE_SENSORS)
+    add_definitions(-DUSE_FAKE_SENSORS)
+endif()
 
 add_executable(npower_app
-  src/main.cpp
-  forms/qml.qrc
+    "${PROJECT_SOURCE_DIR}/src/main.cpp"
+    "${PROJECT_SOURCE_DIR}/forms/qml.qrc"
 )
 
-add_library(fake_sensors
+add_library(backend
+    "${PROJECT_SOURCE_DIR}/include/backend.hpp"
+    "${PROJECT_SOURCE_DIR}/src/backend.cpp"
     "${PROJECT_SOURCE_DIR}/include/fake_sensors.hpp"
     "${PROJECT_SOURCE_DIR}/src/fake_sensors.cpp"
 )
@@ -32,20 +39,27 @@ target_compile_definitions(npower_app
 )
 
 target_link_libraries(npower_app
-  PRIVATE
-  Qt5::Core
-  Qt5::Quick
-  npower_sensors
-  fake_sensors
+    PRIVATE
+    Qt5::Core
+    Qt5::Quick
+    backend
+)
+
+target_link_libraries(backend
+    PUBLIC
+    Qt5::Core
+    Qt5::Quick
+    pthread
+    npower_sensors
 )
 
 target_include_directories(npower_app
     PRIVATE
-    "${npower_sensors_SOURCE_DIR}/include"
     "${PROJECT_SOURCE_DIR}/include"
 )
 
-target_include_directories(fake_sensors
+target_include_directories(backend
     PUBLIC
+    "${npower_sensors_SOURCE_DIR}/include"
     "${PROJECT_SOURCE_DIR}/include"
 )

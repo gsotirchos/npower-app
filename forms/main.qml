@@ -1,6 +1,7 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.5
 import QtQuick.VirtualKeyboard 2.4
+import npower.backend.sensors 1.0
 
 ApplicationWindow {
     id: window
@@ -9,6 +10,9 @@ ApplicationWindow {
     height: 480
     title: qsTr("Title")
 
+    Sensors {
+        id: sensors
+    }
 
     header: ToolBar {
         id: toolBar
@@ -57,6 +61,12 @@ ApplicationWindow {
                     stackView.push("AboutForm.ui.qml")
                     drawer.close()
                 }
+            }
+            ItemDelegate {
+                text: "hall value: " + sensors.value + "\n" +
+                      "voltage: " + sensors.voltage + "\n" +
+                      "current: " + sensors.current + "\n" +
+                      "power: " + sensors.power + "\n"
             }
         }
     }

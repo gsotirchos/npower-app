@@ -1,8 +1,13 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.5
+import npower.backend.challenge 1.0
 
 Page {
     title: "Challenge A"
+
+    Challenge {
+        id: challenge
+    }
 
     Label {
         id: time

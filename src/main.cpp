@@ -1,11 +1,8 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include <QQmlContext>
 
-#include <iostream>
-
-#include "npower_sensors.hpp"
-#include "fake_sensors.hpp"
-
+#include "backend.hpp"
 
 int main(int argc, char *argv[]) {
     qputenv("QT_IM_MODULE", QByteArray("qtvirtualkeyboard"));
@@ -13,6 +10,9 @@ int main(int argc, char *argv[]) {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
     QGuiApplication app(argc, argv);
+
+    qmlRegisterType<Backend::Sensors>("npower.backend.sensors", 1, 0, "Sensors");
+    qmlRegisterType<Backend::Challenge>("npower.backend.challenge", 1, 0, "Challenge");
 
     QQmlApplicationEngine engine;
     const QUrl url(QStringLiteral("qrc:/main.qml"));
@@ -22,22 +22,6 @@ int main(int argc, char *argv[]) {
             QCoreApplication::exit(-1);
     }, Qt::QueuedConnection);
     engine.load(url);
-
-    //try {
-        fake_sensors::HallSensor hallSensor;
-    //} catch(std::system_error) {
-    //    std::cout << "Error: Failed to initialize Hall Effect sensor." << std::endl;
-    //}
-
-    //try {
-        fake_sensors::Wattmeter wattmeter;
-    //} catch(std::exception) {
-    //    std::cout << "Error: Failed to initialize wattmeter." << std::endl;
-    //}
-
-    //int value = hallSensor.readValue();
-    //float voltage = wattmeter.voltage();
-    //float power = wattmeter.power();
 
     return app.exec();
 }
