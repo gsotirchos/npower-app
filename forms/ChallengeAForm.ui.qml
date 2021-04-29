@@ -1,13 +1,8 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.5
-import npower.backend.challenge 1.0
 
 Page {
     title: "Challenge A"
-
-    Challenge {
-        id: challenge
-    }
 
     Label {
         id: time
@@ -16,13 +11,15 @@ Page {
         anchors.horizontalCenter: parent.horizontalCenter
         font.pixelSize: Qt.application.font.pixelSize * 2
         padding: 10
-        text: "30 sec"
+        text: controller.remainingTime + " sec"
     }
 
     Label {
         id: stats
         anchors.centerIn: parent
-        text: "Power: 0 W\n Steps: 0\nSpeed: 0 rpm"
+        text: "Power: " + controller.power + " W\n " + "Steps: "
+              + controller.steps + "\n" + "Speed: " + controller.speed.toFixed(
+                  1) + " rpm"
     }
 
     StartButton {

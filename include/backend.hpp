@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QObject>
+#include <QThread>
 #include <qqml.h>
 
 #include <iostream>
@@ -13,13 +14,32 @@
     #define SENSORS npower_sensors
 #else
     #define SENSORS fake_sensors
-#endif
+#endif  // USE_FAKE_SENSORS
 
 
 namespace Backend {
 
+class Controller;
+
 class Challenge : public QObject {
     Q_OBJECT
+
+  public:
+    Challenge();
+    ~Challenge();
+
+  public slots:
+    void startChallenge(Controller* controller);
+
+  private:
+    static void monitorStepsPThread(Controller* controller);
+    static void monitorPowerPThread(Controller* controller);
+};
+
+
+class Controller : public QObject {
+    Q_OBJECT
+
     Q_PROPERTY(int remainingTime
         MEMBER remaining_time
         WRITE setRemainingTime
@@ -29,59 +49,39 @@ class Challenge : public QObject {
     Q_PROPERTY(int steps MEMBER steps NOTIFY stepsChanged)
     Q_PROPERTY(float speed MEMBER speed NOTIFY speedChanged)
     Q_PROPERTY(float power MEMBER power NOTIFY powerChanged)
+    Q_PROPERTY(bool monitorOn MEMBER monitor_on)
 
   public:
-    Challenge();
+    Controller();
+    ~Controller();
+
+    int remaining_time;
+    int time;
+    int steps;
+    float speed;
+    float power;
+    static std::unique_ptr<SENSORS::HallSensor> hallSensor;
+    static std::unique_ptr<SENSORS::Wattmeter> wattmeter;
+    bool monitor_on;
+
     void setRemainingTime(int value);
 
   public slots:
     void startChallenge();
+    void stopChallenge();
 
   signals:
-    void remainingTimeChanged(const int new_remaining_time);
-    void timeChanged(const int new_Time);
-    void stepsChanged(const int new_Steps);
-    void speedChanged(const float new_Speed);
-    void powerChanged(const float new_Power);
+    void go(Controller* controller);
+    void stop();
+    void remainingTimeChanged(int value);
+    void timeChanged(int value);
+    void stepsChanged(int value);
+    void speedChanged(int value);
+    void powerChanged(int value);
 
   private:
-    static std::unique_ptr<SENSORS::HallSensor> hallSensor;
-    static std::unique_ptr<SENSORS::Wattmeter> wattmeter;
-
-    static int remaining_time;
-    static int time;
-    static int steps;
-    static float speed;
-    static float power;
-    static float hallSensor_value;
-
-    static void challengeThread();
-    static void recordStepsThread();
-    static void recordPowerThread();
-};  // class Challenge
-
-class Sensors : public QObject {
-    Q_OBJECT
-    Q_PROPERTY(bool value READ hallSensorValue)
-    Q_PROPERTY(float voltage READ wattmeterVoltage)
-    Q_PROPERTY(float current READ wattmeterCurrent)
-    Q_PROPERTY(float power READ wattmeterPower)
-
-  public:
-    Sensors();
-    ~Sensors();
-
-    bool hallSensorValue();
-    float wattmeterVoltage();
-    float wattmeterCurrent();
-    float wattmeterPower();
-
-  public slots:
-    void setWattmeterState(std::string state = "reset");
-
-  private:
-    std::unique_ptr<SENSORS::HallSensor> hallSensor;
-    std::unique_ptr<SENSORS::Wattmeter> wattmeter;
-};  // class Sensors
+    Challenge* challenge;
+    QThread* challengeThread;
+};  // class Controller
 
 }  // namespace Backend

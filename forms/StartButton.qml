@@ -8,7 +8,12 @@ Button {
     text: qsTr("Start")
 
     onClicked: {
-        text = (text == "Start") ? qsTr("Finish") : qsTr("Start")
-        if (text == "Start") { stackView.replace("LeaderboardForm.ui.qml") }
+        if (text == "Finish") {
+            controller.stopChallenge()
+            stackView.replace("LeaderboardForm.ui.qml")
+        } else {
+            text = qsTr("Finish")
+            controller.startChallenge()
+        }
     }
 }

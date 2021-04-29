@@ -9,6 +9,8 @@ Button {
 
     onClicked: {
         stackView.push(challengeForm)
+        controller.resetValues
+        controller.remainingTime = 10
     }
 }
 /*##^##

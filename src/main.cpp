@@ -11,8 +11,7 @@ int main(int argc, char *argv[]) {
 
     QGuiApplication app(argc, argv);
 
-    qmlRegisterType<Backend::Sensors>("npower.backend.sensors", 1, 0, "Sensors");
-    qmlRegisterType<Backend::Challenge>("npower.backend.challenge", 1, 0, "Challenge");
+    qmlRegisterType<Backend::Controller>("npower.backend.controller", 1, 0, "Controller");
 
     QQmlApplicationEngine engine;
     const QUrl url(QStringLiteral("qrc:/main.qml"));
