@@ -2,9 +2,11 @@ import QtQuick 2.12
 import QtQuick.Controls 2.5
 
 Page {
-    property alias challengeName: name
-    property alias challengeDescription: description
-    property alias selectButton: selectButton
+    property alias challengeName: name.text
+    property alias challengeDescription: description.text
+    property int remainingTime: 0
+    property int targetIndex: 0
+    property var infoOrder: []
 
     Label {
         id: name

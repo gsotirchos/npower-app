@@ -4,13 +4,18 @@ import QtQuick.Controls 2.5
 
 Button {
     id: selectButton
-    property string challengeForm
     text: qsTr("Select")
 
     onClicked: {
-        stackView.push(challengeForm)
-        controller.resetValues
-        controller.remainingTime = 10
+        stackView.selectedChallenge = challengeName
+        stackView.targetIndex = targetIndex
+        stackView.infoOrder = infoOrder
+        controller.remainingTime = remainingTime
+        controller.time = 0
+        controller.steps = 0
+        controller.speed = 0
+        controller.power = 0
+        stackView.push("ChallengeForm.ui.qml")
     }
 }
 /*##^##

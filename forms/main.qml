@@ -68,8 +68,28 @@ ApplicationWindow {
 
     StackView {
         id: stackView
-        initialItem: "ChallengeSelectionForm.ui.qml"
+        initialItem: "ChallengeSelection.qml"
         anchors.fill: parent
+
+        property string selectedChallenge: ""
+        property int targetIndex: 0
+        property var infoOrder: []
+        property var measurements: {
+            "names": [
+                "Time",
+                "Time",
+                "Power",
+                "Steps",
+                "Speed"
+            ],
+            "contents": [
+                controller.remainingTime + " s",
+                controller.time + " s",
+                controller.power.toFixed(2) + " W",
+                controller.steps,
+                controller.speed.toFixed(2) + " rpm"
+            ]
+        }
 
 //        pushEnter: Transition {
 //            PropertyAnimation {

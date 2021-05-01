@@ -19,23 +19,7 @@
 
 namespace Backend {
 
-class Controller;
-
-class Challenge : public QObject {
-    Q_OBJECT
-
-  public:
-    Challenge();
-    ~Challenge();
-
-  public slots:
-    void startChallenge(Controller* controller);
-
-  private:
-    static void monitorStepsPThread(Controller* controller);
-    static void monitorPowerPThread(Controller* controller);
-};
-
+class Challenge;
 
 class Controller : public QObject {
     Q_OBJECT
@@ -45,11 +29,29 @@ class Controller : public QObject {
         WRITE setRemainingTime
         NOTIFY remainingTimeChanged
     )
-    Q_PROPERTY(int time MEMBER time NOTIFY timeChanged)
-    Q_PROPERTY(int steps MEMBER steps NOTIFY stepsChanged)
-    Q_PROPERTY(float speed MEMBER speed NOTIFY speedChanged)
-    Q_PROPERTY(float power MEMBER power NOTIFY powerChanged)
-    Q_PROPERTY(bool monitorOn MEMBER monitor_on)
+    Q_PROPERTY(int time
+        MEMBER time
+        NOTIFY timeChanged
+        WRITE setTime
+    )
+    Q_PROPERTY(int steps
+        MEMBER steps
+        NOTIFY stepsChanged
+        WRITE setSteps
+    )
+    Q_PROPERTY(float speed
+        MEMBER speed
+        NOTIFY speedChanged
+        WRITE setSpeed
+    )
+    Q_PROPERTY(float power
+        MEMBER power
+        NOTIFY powerChanged
+        WRITE setPower
+    )
+    Q_PROPERTY(bool monitorOn
+        MEMBER monitor_on
+    )
 
   public:
     Controller();
@@ -65,10 +67,10 @@ class Controller : public QObject {
     bool monitor_on;
 
     void setRemainingTime(int value);
-
-  public slots:
-    void startChallenge();
-    void stopChallenge();
+    void setTime(int value);
+    void setSteps(int value);
+    void setSpeed(float value);
+    void setPower(float value);
 
   signals:
     void go(Controller* controller);
@@ -76,12 +78,32 @@ class Controller : public QObject {
     void remainingTimeChanged(int value);
     void timeChanged(int value);
     void stepsChanged(int value);
-    void speedChanged(int value);
-    void powerChanged(int value);
+    void speedChanged(float value);
+    void powerChanged(float value);
+
+  public slots:
+    void startChallenge();
+    void stopChallenge();
 
   private:
     Challenge* challenge;
     QThread* challengeThread;
 };  // class Controller
+
+
+class Challenge : public QObject {
+    Q_OBJECT
+
+  public:
+    Challenge();
+    ~Challenge();
+
+  public slots:
+    void startChallenge(Controller* controller);
+
+  private:
+    static void monitorStepsPThread(Controller* controller);
+    static void monitorPowerPThread(Controller* controller);
+};
 
 }  // namespace Backend

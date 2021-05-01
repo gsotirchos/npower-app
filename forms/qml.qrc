@@ -3,16 +3,14 @@
         <file>main.qml</file>
         <file>ChallengeInfoForm.ui.qml</file>
         <file>qtquickcontrols2.conf</file>
-        <file>ChallengeSelectionForm.ui.qml</file>
+        <file>ChallengeSelection.qml</file>
         <file>AboutForm.ui.qml</file>
         <file>SelectButton.qml</file>
-        <file>ChallengeAForm.ui.qml</file>
+        <file>ChallengeForm.ui.qml</file>
         <file>StartButton.qml</file>
         <file>LeaderboardForm.ui.qml</file>
         <file>SaveButton.qml</file>
         <file>BatteryIndicatorForm.ui.qml</file>
         <file>LeaderboardTable.qml</file>
-        <file>ChallengeBForm.ui.qml</file>
-        <file>ChallengeCForm.ui.qml</file>
     </qresource>
 </RCC>
