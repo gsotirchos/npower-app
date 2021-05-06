@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.10)
 
 project(npower_app LANGUAGES CXX)
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 set(CMAKE_AUTOUIC ON)
@@ -16,12 +18,6 @@ include("${PROJECT_SOURCE_DIR}/cmake/CPMdependencies.cmake")
 
 add_compile_options(-Wall -Wextra -pedantic)
 
-option(WITH_FAKE_SENSORS "Use simulated fake sensors." ON)
-
-if(WITH_FAKE_SENSORS)
-    add_definitions(-DUSE_FAKE_SENSORS)
-endif()
-
 add_executable(npower_app
     "${PROJECT_SOURCE_DIR}/src/main.cpp"
     "${PROJECT_SOURCE_DIR}/forms/qml.qrc"
@@ -34,8 +30,17 @@ add_library(backend
     "${PROJECT_SOURCE_DIR}/src/fake_sensors.cpp"
 )
 
+option(WITH_FAKE_SENSORS "Use simulated fake sensors." ON)
+
+if(WITH_FAKE_SENSORS)
+    target_compile_definitions(backend
+        PUBLIC
+        -DUSE_FAKE_SENSORS
+    )
+endif()
+
 target_compile_definitions(npower_app
-  PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>
+    PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>
 )
 
 target_link_libraries(npower_app

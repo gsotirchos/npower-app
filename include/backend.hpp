@@ -4,7 +4,7 @@
 #include <QThread>
 #include <qqml.h>
 
-#include <iostream>
+#include <memory>
 
 #include "npower_sensors.hpp"
 #include "fake_sensors.hpp"
@@ -20,10 +20,15 @@
 namespace Backend {
 
 class Challenge;
+class BatteryMonitor;
 
 class Controller : public QObject {
     Q_OBJECT
 
+    Q_PROPERTY(int chargePercenage
+        MEMBER charge_percentage
+        NOTIFY chargePercentageChanged
+    )
     Q_PROPERTY(int remainingTime
         MEMBER remaining_time
         WRITE setRemainingTime
@@ -49,9 +54,6 @@ class Controller : public QObject {
         NOTIFY powerChanged
         WRITE setPower
     )
-    Q_PROPERTY(bool monitorOn
-        MEMBER monitor_on
-    )
 
   public:
     Controller();
@@ -64,7 +66,9 @@ class Controller : public QObject {
     float power;
     static std::unique_ptr<SENSORS::HallSensor> hallSensor;
     static std::unique_ptr<SENSORS::Wattmeter> wattmeter;
-    bool monitor_on;
+    bool battery_monitor_on;
+    bool challenge_monitor_on;
+    int charge_percentage;
 
     void setRemainingTime(int value);
     void setTime(int value);
@@ -73,8 +77,9 @@ class Controller : public QObject {
     void setPower(float value);
 
   signals:
-    void go(Controller* controller);
-    void stop();
+    void runBatteryMonitor(Controller* controller);
+    void runChallenge(Controller* controller);
+    void chargePercentageChanged(int value);
     void remainingTimeChanged(int value);
     void timeChanged(int value);
     void stepsChanged(int value);
@@ -82,13 +87,30 @@ class Controller : public QObject {
     void powerChanged(float value);
 
   public slots:
+    void startBatteryMonitor();
+    void stopBatteryMonitor();
     void startChallenge();
     void stopChallenge();
 
   private:
+    BatteryMonitor* batteryMonitor;
+    QThread* batteryMonitorThread;
+
     Challenge* challenge;
     QThread* challengeThread;
 };  // class Controller
+
+
+class BatteryMonitor : public QObject {
+    Q_OBJECT
+
+  public:
+    BatteryMonitor();
+    ~BatteryMonitor();
+
+  public slots:
+    void start(Controller* controller);
+};  // class BatteryMonitor
 
 
 class Challenge : public QObject {
@@ -99,11 +121,11 @@ class Challenge : public QObject {
     ~Challenge();
 
   public slots:
-    void startChallenge(Controller* controller);
+    void start(Controller* controller);
 
   private:
     static void monitorStepsPThread(Controller* controller);
     static void monitorPowerPThread(Controller* controller);
-};
+};  // class Challenge
 
 }  // namespace Backend

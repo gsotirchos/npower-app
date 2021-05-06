@@ -14,6 +14,10 @@ ApplicationWindow {
         id: controller
     }
 
+    Component.onCompleted: {
+        controller.startBatteryMonitor()
+    }
+
     header: ToolBar {
         id: toolBar
         contentHeight: toolButton.implicitHeight
@@ -44,6 +48,7 @@ ApplicationWindow {
             anchors.right: parent.right
             anchors.rightMargin: 20
             anchors.verticalCenter: parent.verticalCenter
+            percentage: controller.chargePercenage
         }
     }
 
