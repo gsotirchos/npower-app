@@ -2,12 +2,12 @@ import QtQuick 2.12
 import QtQuick.Controls 2.5
 
 Page {
-    id: page
-    title: "Leaderboard"
+    id: leaderboardForm
+    title: stackView.selectedChallenge + " - High Scores"
 
     Label {
         id: enterNameLabel
-        anchors.bottom: nameFeld.top
+        anchors.bottom: nameField.top
         anchors.bottomMargin: 10
         anchors.horizontalCenter: parent.horizontalCenter
         font.pixelSize: Qt.application.font.pixelSize * 1.5
@@ -16,12 +16,13 @@ Page {
     }
 
     TextField {
-        id: nameFeld
+        id: nameField
         width: 200
         height: 35
         anchors.top: parent.top
         anchors.topMargin: 75
         anchors.horizontalCenter: parent.horizontalCenter
+        enabled: controller.canSaveScore
         text: qsTr("")
         placeholderText: "Name"
         renderType: Text.QtRendering
@@ -31,8 +32,8 @@ Page {
     SaveButton {
         y: 148
         text: "Save"
-        anchors.verticalCenter: nameFeld.verticalCenter
-        anchors.left: nameFeld.right
+        anchors.verticalCenter: nameField.verticalCenter
+        anchors.left: nameField.right
         anchors.leftMargin: 10
     }
 
@@ -41,7 +42,7 @@ Page {
         anchors.horizontalCenterOffset: 0
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 10
-        anchors.top: nameFeld.bottom
+        anchors.top: nameField.bottom
         anchors.topMargin: 20
         anchors.horizontalCenter: parent.horizontalCenter
 
@@ -57,13 +58,14 @@ Page {
                 "width": 0.20
             }]
 
-        dataModel: [["1", "Player17", 34.6], ["2", "Player3", 23.9], ["3", "Player21", 18.2], ["4", "Player7", 17.7], ["5", "Player11", 17.3], ["6", "Player22", 16.2], ["7", "Player5", 16.4], ["8", "Player9", 15.6], ["9", "Player13", 14.7], ["10", "Player12", 14.5], ["11", "Player23", 12.3], ["12", "Player4", 12.0], ["13", "Player2", 11.4], ["14", "Player14", 9.7], ["15", "Player28", 7.5]]
+        //dataModel: [["1", "Player17", 34.6], ["2", "Player3", 23.9], ["3", "Player21", 18.2], ["4", "Player7", 17.7], ["5", "Player11", 17.3], ["6", "Player22", 16.2], ["7", "Player5", 16.4], ["8", "Player9", 15.6], ["9", "Player13", 14.7], ["10", "Player12", 14.5], ["11", "Player23", 12.3], ["12", "Player4", 12.0], ["13", "Player2", 11.4], ["14", "Player14", 9.7], ["15", "Player28", 7.5]]
+        dataModel: controller.scores
     }
 }
 
 /*##^##
 Designer {
-    D{i:0;autoSize:true;height:480;width:640}D{i:4;anchors_height:480}
+    D{i:0;autoSize:true;height:480;width:640}
 }
 ##^##*/
 

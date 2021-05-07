@@ -59,20 +59,10 @@ class Controller : public QObject {
         NOTIFY speedChanged
         WRITE setSpeed
     )
-    Q_PROPERTY(float maxSpeed
-        MEMBER max_speed
-        NOTIFY maxSpeedChanged
-        WRITE setMaxSpeed
-    )
     Q_PROPERTY(float power
         MEMBER power
         NOTIFY powerChanged
         WRITE setPower
-    )
-    Q_PROPERTY(float powerTarget
-        MEMBER power_target
-        NOTIFY powerTargetChanged
-        WRITE setPowerTarget
     )
     Q_PROPERTY(QString challengeType
         MEMBER challenge_type
@@ -81,10 +71,6 @@ class Controller : public QObject {
     Q_PROPERTY(QVariantList scores
         MEMBER scores
         NOTIFY scoresChanged
-    )
-    Q_PROPERTY(bool canSaveScore
-        MEMBER can_save_score
-        NOTIFY canSaveScoreChanged
     )
 
   public:
@@ -98,28 +84,22 @@ class Controller : public QObject {
     int time;
     int steps;
     float speed;
-    float max_speed;
     float power;
-    float power_target;
 
     int charge_percentage;
     QString challenge_type;
     float worst_score;
     QVariantList scores;
-    bool can_save_score;
 
     bool battery_monitor_on;
     bool challenge_monitor_on;
 
-    bool targetReached();
-    void setChallengeType(QString value);
+    void setChallengeType(string value);
     void setRemainingTime(int value);
     void setTime(int value);
     void setSteps(int value);
     void setSpeed(float value);
-    void setMaxSpeed(float value);
     void setPower(float value);
-    void setPowerTarget(float value);
 
   signals:
     void runBatteryMonitor(Controller * controller);
@@ -128,13 +108,10 @@ class Controller : public QObject {
     void chargePercentageChanged(int value);
     void remainingTimeChanged(int value);
     void scoresChanged(QVariantList scores);
-    void canSaveScoreChanged(bool value);
     void timeChanged(int value);
     void stepsChanged(int value);
     void speedChanged(float value);
-    void maxSpeedChanged(float value);
     void powerChanged(float value);
-    void powerTargetChanged(float value);
 
   public slots:
     void startBatteryMonitor();
@@ -143,17 +120,18 @@ class Controller : public QObject {
     void startChallenge();
     void stopChallenge();
 
-    void openLeaderboard();
-    void closeLeaderboard();
-
-    void saveScore(QString name);
+    void startLeaderboard();
+    void stopLeaderboard();
 
   private:
     BatteryMonitor * batteryMonitor;
     QThread * batteryMonitorThread;
+
     Challenge * challenge;
     QThread * challengeThread;
+
     Leaderboard * leaderboard;
+    QThread * leaderboardThread;
 };  // class Controller
 
 
@@ -192,19 +170,27 @@ class Leaderboard : public QObject  {
     Leaderboard(Controller * controller);
     ~Leaderboard();
 
+    int row;
+    string worst;
+
     // function to insert new entry
-    int insertRecord(string new_name = "");
+    int insertRecord(float new_score = 0, string new_name = "");
+
+    // function to delete worst score entry
+    int deleteLastRecord();
+
+    // function to delete empty entries
+    int cleanUpRecords();
+
+    int showContents();
+    int readWorstScore();
+    int readContents();
 
   private:
     Controller * controller;
-    float score;
-    int row;
-    string worst;
-    string worst_order;
 
     string db_file;
     sqlite3 * db;
-    static int const max_rows;
     static string const query_cmd;
     int failed;
     int status;
@@ -219,11 +205,6 @@ class Leaderboard : public QObject  {
     static int print_callback(
         void * data, int cols, char * field[], char * col_names[]
     );
-
-    int cleanUpRecords();
-    int showContents();
-    int readWorstScore();
-    int readContents();
 };  // class Leaderboard
 
 }  // namespace Backend

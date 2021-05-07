@@ -15,7 +15,7 @@ HallSensor::~HallSensor() = default;
 
 bool HallSensor::readValue() const {
     int value = rand()%2;
-    cout << "HALL VALUE: " << value << endl;
+    cout << "[FAKE] HALL VALUE: " << value << endl;
     return value;
 }
 
@@ -24,43 +24,43 @@ Wattmeter::Wattmeter() = default;
 Wattmeter::~Wattmeter() = default;
 
 void Wattmeter::sleep() {
-    cout << "SLEEP" << endl;
+    cout << "[FAKE] SLEEP" << endl;
 }
 
 void Wattmeter::wake() {
-    cout << "WAKE" << endl;
+    cout << "[FAKE] WAKE" << endl;
 }
 
 void Wattmeter::reset() {
-    cout << "RESET" << endl;
+    cout << "[FAKE] RESET" << endl;
 }
 
 float Wattmeter::voltage() {
     float voltage = 11.5 + rand()%150/100.0;
-    cout << "VOLTAGE: " << voltage << endl;
+    cout << "[FAKE] VOLTAGE: " << voltage << endl;
     return voltage;
 }
 
 float Wattmeter::shunt_voltage() {
     float voltage = 0.2 + rand()%100/100.0;
-    cout << "SHUNT_VOLTAGE: " << voltage << endl;
+    cout << "[FAKE] SHUNT_VOLTAGE: " << voltage << endl;
     return voltage;
 }
 
 float Wattmeter::supply_voltage() {
     float voltage = 11.5 + rand()%150/100.0;
-    cout << "SUPPLY_VOLTAGE: " << voltage << endl;
+    cout << "[FAKE] SUPPLY_VOLTAGE: " << voltage << endl;
     return voltage;
 }
 
 float Wattmeter::current() {
     float current = rand()%100/100.0;
-    cout << "CURRENT: " << current << endl;
+    cout << "[FAKE] CURRENT: " << current << endl;
     return current;
 }
 
 float Wattmeter::power() {
     float power = rand()%10;
-    cout << "POWER: " << power << endl;
+    cout << "[FAKE] POWER: " << power << endl;
     return power;
 }

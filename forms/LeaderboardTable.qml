@@ -4,38 +4,19 @@ import QtQuick.Controls 2.5
 Item { // size controlled by width
     id: root
 
-// public
-    property variant headerModel: [ // widths must add to 1
-//    {
-//        "text"
-//        : "Rank",
-//        "width": 0.20
-//    }, {
-//        "text": "Name",
-//        "width": 0.60
-//    }, {
-//        "text": "Score",
-//        "width": 0.20
+//    Component.onCompleted: {
+//        for (var i = 0; i < controller.scores.length; ++i) {
+//            console.log(
+//                controller.scores[i][0] + " "
+//                + controller.scores[i][1] + " "
+//                + controller.scores[i][2]
+//            );
+//        }
 //    }
-    ]
 
-    property variant dataModel: [
-//         ["1", "Player17", 34.6],
-//         ["2", "Player3", 23.9],
-//         ["3", "Player21", 18.2],
-//         ["4", "Player7", 17.7],
-//         ["5", "Player11", 17.3],
-//         ["6", "Player22", 16.2],
-//         ["7", "Player5", 16.4],
-//         ["8", "Player9", 15.6],
-//         ["9", "Player13", 14.7],
-//         ["10", "Player12", 13.2],
-//         ["11", "Player23", 12.3],
-//         ["12", "Player4", 12.0],
-//         ["13", "Player2", 11.4],
-//         ["14", "Player14", 9.7],
-//         ["15", "Player28", 7.5]
-    ]
+// public
+    property variant headerModel: []
+    property variant dataModel: []
 
 // private
     width: parent.width

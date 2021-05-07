@@ -30,6 +30,7 @@ ApplicationWindow {
                 if (stackView.depth > 1) {
                     stackView.pop()
                     controller.stopChallenge()
+                    controller.closeLeaderboard()
                 } else {
                     drawer.open()
                 }
@@ -85,14 +86,16 @@ ApplicationWindow {
                 "Time",
                 "Power",
                 "Steps",
-                "Speed"
+                "Speed",
+                "Max speed"
             ],
             "contents": [
                 controller.remainingTime + " s",
                 controller.time + " s",
                 controller.power.toFixed(2) + " W",
                 controller.steps,
-                controller.speed.toFixed(2) + " rpm"
+                controller.speed.toFixed(2) + " rpm",
+                controller.maxSpeed.toFixed(2) + " rpm"
             ]
         }
 

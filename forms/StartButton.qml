@@ -10,6 +10,7 @@ Button {
     onClicked: {
         if (text == "Finish") {
             controller.stopChallenge()
+            controller.openLeaderboard();
             stackView.replace("LeaderboardForm.ui.qml")
         } else {
             text = qsTr("Finish")

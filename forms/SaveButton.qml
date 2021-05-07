@@ -5,10 +5,13 @@ import QtQuick.Controls 2.5
 Button {
     id: selectButton
     property string challengeForm
+
     text: qsTr("Save")
+    enabled: controller.canSaveScore
 
     onClicked: {
-        stackView.pop("ChallengeSelectionForm.ui.qml")
+        controller.saveScore(nameField.text)
+        //stackView.pop("ChallengeSelectionForm.ui.qml")
     }
 }
 /*##^##

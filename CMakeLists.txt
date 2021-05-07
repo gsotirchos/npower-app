@@ -56,6 +56,7 @@ target_link_libraries(backend
     Qt5::Quick
     pthread
     npower_sensors
+    sqlite3
 )
 
 target_include_directories(npower_app

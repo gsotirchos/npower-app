@@ -4,7 +4,7 @@ import QtQuick.Controls 2.5
 Page {
     property alias challengeName: name.text
     property alias challengeDescription: description.text
-    property int remainingTime: 0
+    property string challengeType: ""
     property int targetIndex: 0
     property var infoOrder: []
 

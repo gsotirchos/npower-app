@@ -12,29 +12,23 @@ Page {
 
         ChallengeInfoForm {
             id: challengeA
-            challengeName: qsTr("Challenge A")
+            challengeName: qsTr("Max Power")
+            challengeType: "max power"
             challengeDescription: qsTr("You are on Challenge A.")
-            remainingTime: 30
-            targetIndex: 0
-            infoOrder: [2, 3, 4]
         }
 
         ChallengeInfoForm {
             id: challengeB
-            challengeName: qsTr("Challenge B")
+            challengeName: qsTr("Max Speed")
+            challengeType: "max speed";
             challengeDescription: qsTr("You are on Challenge B.")
-            remainingTime: 10
-            targetIndex: 0
-            infoOrder: [4, 3, 2]
         }
 
         ChallengeInfoForm {
             id: challengeC
-            challengeName: qsTr("Challenge C")
+            challengeName: qsTr("Lightning Fast 1W")
+            challengeType: "lightning fast"
             challengeDescription: qsTr("You are on Challenge C.")
-            remainingTime: 90
-            targetIndex: 1
-            infoOrder: [2, 3, 4]
         }
     }
 
