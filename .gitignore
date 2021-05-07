@@ -72,5 +72,3 @@ Thumbs.db
 *.exe
 
 build/*
-
-compile_commands.json
