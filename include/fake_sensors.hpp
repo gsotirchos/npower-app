@@ -9,7 +9,7 @@ namespace fake_sensors {
 
 class HallSensor {
   public:
-    HallSensor();
+    HallSensor(string chip = "", int pin = 0);
 
     bool readValue() const;
 

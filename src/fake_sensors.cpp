@@ -10,7 +10,11 @@ using std::endl;
 using namespace fake_sensors;
 
 
-HallSensor::HallSensor() = default;
+HallSensor::HallSensor(string chip, int pin) {
+    (void)chip;
+    (void)pin;
+};
+
 HallSensor::~HallSensor() = default;
 
 bool HallSensor::readValue() const {
