@@ -5,61 +5,78 @@ Page {
     id: leaderboardForm
     title: stackView.selectedChallenge + " - High Scores"
 
-    Label {
-        id: enterNameLabel
-        anchors.bottom: nameField.top
-        anchors.bottomMargin: 10
-        anchors.horizontalCenter: parent.horizontalCenter
-        font.pixelSize: Qt.application.font.pixelSize * 1.5
-        text: "Enter your name:"
-        anchors.horizontalCenterOffset: 0
-    }
+    MouseArea {
+        anchors.fill: parent
+        onClicked: forceActiveFocus()
 
-    TextField {
-        id: nameField
-        width: 200
-        height: 35
-        anchors.top: parent.top
-        anchors.topMargin: 75
-        anchors.horizontalCenter: parent.horizontalCenter
-        enabled: controller.canSaveScore
-        text: qsTr("")
-        placeholderText: "Name"
-        renderType: Text.QtRendering
-        horizontalAlignment: Text.AlignHCenter
-    }
+        Label {
+            id: enterNameLabel
+            anchors.bottom: nameField.top
+            anchors.bottomMargin: 10
+            anchors.horizontalCenter: parent.horizontalCenter
+            font.pixelSize: Qt.application.font.pixelSize * 1.5
+            text: "Enter your name:"
+            anchors.horizontalCenterOffset: 0
+        }
 
-    SaveButton {
-        y: 148
-        text: "Save"
-        anchors.verticalCenter: nameField.verticalCenter
-        anchors.left: nameField.right
-        anchors.leftMargin: 10
-    }
+        TextField {
+            id: nameField
+            width: 200
+            height: 35
+            anchors.top: parent.top
+            anchors.topMargin: 75
+            anchors.horizontalCenter: parent.horizontalCenter
 
-    LeaderboardTable {
-        width: parent.width * 0.90
-        anchors.horizontalCenterOffset: 0
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: 10
-        anchors.top: nameField.bottom
-        anchors.topMargin: 20
-        anchors.horizontalCenter: parent.horizontalCenter
+            enabled: controller.canSaveScore
+            text: qsTr("")
+            placeholderText: "Enter your name"
 
-        headerModel: [{
-                "text"// widths must add to 1
-                : "Rank",
-                "width": 0.20
-            }, {
-                "text": "Name",
-                "width": 0.60
-            }, {
-                "text": "Score",
-                "width": 0.20
-            }]
+            onActiveFocusChanged: {
+               if(activeFocus) {
+                    Qt.inputMethod.show();
+                   //Qt.inputMethod.update(Qt.ImQueryInput)
+               } else
+                    Qt.inputMethod.hide();
+            }
 
-        //dataModel: [["1", "Player17", 34.6], ["2", "Player3", 23.9], ["3", "Player21", 18.2], ["4", "Player7", 17.7], ["5", "Player11", 17.3], ["6", "Player22", 16.2], ["7", "Player5", 16.4], ["8", "Player9", 15.6], ["9", "Player13", 14.7], ["10", "Player12", 14.5], ["11", "Player23", 12.3], ["12", "Player4", 12.0], ["13", "Player2", 11.4], ["14", "Player14", 9.7], ["15", "Player28", 7.5]]
-        dataModel: controller.scores
+            onAccepted: {
+                Qt.inputMethod.commit();
+                Qt.inputMethod.hide();
+            }
+        }
+
+
+        SaveButton {
+            y: 148
+            text: "Save"
+            anchors.verticalCenter: nameField.verticalCenter
+            anchors.left: nameField.right
+            anchors.leftMargin: 10
+        }
+
+        LeaderboardTable {
+            width: parent.width * 0.90
+            anchors.horizontalCenterOffset: 0
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: 10
+            anchors.top: nameField.bottom
+            anchors.topMargin: 20
+            anchors.horizontalCenter: parent.horizontalCenter
+
+            headerModel: [{
+                    "text"// widths must add to 1
+                    : "Rank",
+                    "width": 0.20
+                }, {
+                    "text": "Name",
+                    "width": 0.60
+                }, {
+                    "text": "Score",
+                    "width": 0.20
+                }]
+
+            dataModel: controller.scores
+        }
     }
 }
 
