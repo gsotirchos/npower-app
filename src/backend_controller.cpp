@@ -38,7 +38,7 @@ Controller::~Controller() {
     std::cout << "- CONTROLLER DESTROYED" << std::endl;
 }
 
-auto Controller::hallSensor = std::make_unique<SENSORS::HallSensor>();
+auto Controller::hallSensor = std::make_unique<SENSORS::HallSensor>("/dev/gpiochip0", 24);
 
 auto Controller::wattmeter = std::make_unique<SENSORS::Wattmeter>();
 
@@ -167,13 +167,12 @@ void Controller::stopChallenge() {
 
 void Controller::openLeaderboard() {
     // create a leaderboard
-    leaderboard = new Leaderboard{this};
+    leaderboard = std::make_unique<Leaderboard>(this);
 }
 
 void Controller::closeLeaderboard() {
-    if (leaderboard != nullptr) {
-        delete leaderboard;
-        leaderboard = nullptr;
+    if (leaderboard) {
+        leaderboard.reset();
     }
 }
 

@@ -154,7 +154,7 @@ class Controller : public QObject {
     QThread * batteryMonitorThread;
     Challenge * challenge;
     QThread * challengeThread;
-    Leaderboard * leaderboard;
+    std::unique_ptr<Leaderboard> leaderboard;
 };  // class Controller
 
 
