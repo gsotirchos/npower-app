@@ -48,13 +48,17 @@ bool Controller::targetReached() {
     if (remaining_time) {
         reached = false;
     } else {
+        std::cout << "- TIME TARGET REACHED" << std::endl;
         reached = true;
     }
 
-    if (power_target && (power < power_target)) {
-        reached = false;
-    } else {
-        reached = true;
+    if (power_target) {
+        if (power < power_target) {
+            reached = false;
+        } else {
+            std::cout << "- POWER TARGET REACHED" << std::endl;
+            reached = true;
+        }
     }
 
     return reached;

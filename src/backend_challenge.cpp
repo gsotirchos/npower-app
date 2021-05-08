@@ -84,9 +84,10 @@ void Challenge::monitorPowerPThread(Controller* controller) {
     while (not controller->targetReached()
             && controller->challenge_monitor_on) {
         // register only positive values (generated power)
-        float power = controller->wattmeter->power();
-        if (power > 0.0) {
-            controller->power += controller->wattmeter->power();
+        float current = controller->wattmeter->current();
+        float power = controller->wattmeter->power()/1000.0;
+        if (current > 0.0) {
+            controller->power += power;
             emit controller->powerChanged(controller->power);
         }
 

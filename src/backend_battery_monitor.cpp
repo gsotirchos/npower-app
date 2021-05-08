@@ -5,6 +5,10 @@
 #include <thread>
 
 
+using std::min;
+using std::max;
+
+
 namespace Backend {
 
 //// BatteryMonitor class ////
@@ -18,10 +22,10 @@ BatteryMonitor::~BatteryMonitor() {
 
 void BatteryMonitor::start(Controller* controller) {
     static int const delay_s = 2;
-    static float const max_oc_voltage = 13.0;
+    static float const max_oc_voltage = 13.4;
     static float const min_oc_voltage = 11.8;
-    static float const max_oc_current = 0.7;
-    static float const min_oc_current = 0;
+    static float const max_oc_current = 0;
+    static float const min_oc_current = -700;
     static float voltage;
     static float current;
     static int percentage;
@@ -36,12 +40,11 @@ void BatteryMonitor::start(Controller* controller) {
             percentage =
                 100*(voltage - min_oc_voltage)
                     /(max_oc_voltage - min_oc_voltage);
-            percentage = std::max(0, percentage);
-            percentage = std::min(100, percentage);
-            controller->charge_percentage = std::max(0, percentage);
+            percentage = min(max(0, percentage), 100);
+            controller->charge_percentage = percentage;
 
             emit controller->chargePercentageChanged(controller->charge_percentage);
-            std::cout << "- BATTERY PERCENTAGE: " << controller->charge_percentage
+            std::cout << "- BATTERY CHARGE: " << controller->charge_percentage
                 << "%" << std::endl;
         }
 
