@@ -7,6 +7,7 @@
 
 #include <memory>
 
+// npower/mock sensors libraries
 #include "npower_sensors.hpp"
 #include "fake_sensors.hpp"
 
@@ -185,7 +186,7 @@ class Challenge : public QObject {
 };  // class Challenge
 
 
-class Leaderboard : public QObject  {
+class Leaderboard : public QObject {
     Q_OBJECT
 
   public:

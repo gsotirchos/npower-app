@@ -25,7 +25,10 @@ add_executable(npower_app
 
 add_library(backend
     "${PROJECT_SOURCE_DIR}/include/backend.hpp"
-    "${PROJECT_SOURCE_DIR}/src/backend.cpp"
+    "${PROJECT_SOURCE_DIR}/src/backend_controller.cpp"
+    "${PROJECT_SOURCE_DIR}/src/backend_challenge.cpp"
+    "${PROJECT_SOURCE_DIR}/src/backend_battery_monitor.cpp"
+    "${PROJECT_SOURCE_DIR}/src/backend_leaderboard.cpp"
     "${PROJECT_SOURCE_DIR}/include/fake_sensors.hpp"
     "${PROJECT_SOURCE_DIR}/src/fake_sensors.cpp"
 )
