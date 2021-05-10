@@ -6,8 +6,10 @@ import npower.backend.controller 1.0
 ApplicationWindow {
     id: window
     visible: true
+    visibility: "FullScreen"
     width: 800
     height: 480
+
     title: qsTr("npower-app")
 
     Controller {

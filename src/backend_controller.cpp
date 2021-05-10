@@ -41,9 +41,11 @@ Controller::~Controller() {
     std::cout << "- CONTROLLER DESTROYED" << std::endl;
 }
 
-auto Controller::hallSensor = std::make_unique<SENSORS::HallSensor>("/dev/gpiochip0", 24);
+std::unique_ptr<SENSORS::HallSensor> Controller::hallSensor =
+    std::make_unique<SENSORS::HallSensor>("/dev/gpiochip0", 24);
 
-auto Controller::wattmeter = std::make_unique<SENSORS::Wattmeter>();
+std::unique_ptr<SENSORS::Wattmeter> Controller::wattmeter =
+    std::make_unique<SENSORS::Wattmeter>();
 
 bool Controller::targetReached() {
     bool reached;

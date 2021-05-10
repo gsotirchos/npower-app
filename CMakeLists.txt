@@ -42,9 +42,9 @@ if(WITH_FAKE_SENSORS)
     )
 endif()
 
-target_compile_definitions(npower_app
-    PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>
-)
+#target_compile_definitions(npower_app
+#    PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>
+#)
 
 target_link_libraries(npower_app
     PRIVATE
