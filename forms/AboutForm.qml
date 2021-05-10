@@ -13,8 +13,9 @@ Page {
         Image {
             id: npowerImage
             anchors.horizontalCenter: parent.horizontalCenter
-            anchors.top: parent.top
-            width: 0.60 * parent.width
+            anchors.centerIn: parent
+            anchors.verticalCenterOffset: -80
+            width: 480
             fillMode: Image.PreserveAspectFit
             source: "images/NGK_N-POWER.jpg"
             mipmap: true
@@ -24,7 +25,7 @@ Page {
             id: ngkText
             anchors.top: npowerImage.bottom
             anchors.horizontalCenter: parent.horizontalCenter
-            anchors.topMargin: -40
+            anchors.topMargin: -60
 
             horizontalAlignment: Text.AlignHCenter
             color: "black"
@@ -45,7 +46,7 @@ Page {
         id: ngkIimage
         anchors.bottom: parent.bottom
         anchors.horizontalCenter: parent.horizontalCenter
-        width: 0.2 * parent.width
+        width: 160
         fillMode: Image.PreserveAspectFit
         source: "images/NGK.png"
         mipmap: true
