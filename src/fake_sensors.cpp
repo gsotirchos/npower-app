@@ -64,7 +64,7 @@ float Wattmeter::current() {
 }
 
 float Wattmeter::power() {
-    float power = rand()%10000;
+    float power = rand()%1000*1.0;
     cout << "[FAKE] POWER: " << power << endl;
     return power;
 }

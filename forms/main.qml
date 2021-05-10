@@ -8,7 +8,7 @@ ApplicationWindow {
     visible: true
     width: 800
     height: 480
-    title: qsTr("Title")
+    title: qsTr("npower-app")
 
     Controller {
         id: controller
@@ -38,7 +38,10 @@ ApplicationWindow {
         }
 
         Label {
+            font.pixelSize: Qt.application.font.pixelSize * 1.5
             text: stackView.currentItem.title
+            font.bold: true
+            color: "white"
             anchors.centerIn: parent
         }
 
@@ -49,7 +52,7 @@ ApplicationWindow {
             anchors.right: parent.right
             anchors.rightMargin: 20
             anchors.verticalCenter: parent.verticalCenter
-            percentage: controller.chargePercenage
+            percentage: controller.chargePercentage
         }
     }
 
@@ -62,10 +65,12 @@ ApplicationWindow {
             anchors.fill: parent
 
             ItemDelegate {
-                text: qsTr("About")
                 width: parent.width
+                height: width*0.2
+                font.pixelSize: Qt.application.font.pixelSize * 1.5
+                text: qsTr("About")
                 onClicked: {
-                    stackView.push("AboutForm.ui.qml")
+                    stackView.push("AboutForm.qml")
                     drawer.close()
                 }
             }
@@ -78,12 +83,14 @@ ApplicationWindow {
         anchors.fill: parent
 
         property string selectedChallenge: ""
+        property int mainIndex: 0
         property int targetIndex: 0
         property var infoOrder: []
         property var measurements: {
             "names": [
                 "Time",
                 "Time",
+                "Energy",
                 "Power",
                 "Steps",
                 "Speed",
@@ -92,6 +99,7 @@ ApplicationWindow {
             "contents": [
                 controller.remainingTime + " s",
                 controller.time + " s",
+                controller.energy.toFixed(2) + " mWh",
                 controller.power.toFixed(2) + " W",
                 controller.steps,
                 controller.speed.toFixed(2) + " rpm",

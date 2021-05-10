@@ -11,22 +11,22 @@ Page {
         currentIndex: tabBar.currentIndex
 
         ChallengeInfoForm {
-            id: challengeA
+            id: maxPower
             challengeName: qsTr("Max Power")
             challengeType: "max power"
             challengeDescription: qsTr("You are on Challenge A.")
         }
 
         ChallengeInfoForm {
-            id: challengeB
+            id: maxSpeed
             challengeName: qsTr("Max Speed")
             challengeType: "max speed";
             challengeDescription: qsTr("You are on Challenge B.")
         }
 
         ChallengeInfoForm {
-            id: challengeC
-            challengeName: qsTr("Lightning Fast 1W")
+            id: lightningFast
+            challengeName: qsTr("Lightning Fast 10mWh")
             challengeType: "lightning fast"
             challengeDescription: qsTr("You are on Challenge C.")
         }
@@ -37,18 +37,24 @@ Page {
         currentIndex: swipeView.currentIndex
 
         TabButton {
-            text: challengeA.challengeName
+            font.bold: true
+            text: maxPower.challengeName
         }
 
         TabButton {
-            text: challengeB.challengeName
+            font.bold: true
+            text: maxSpeed.challengeName
         }
 
         TabButton {
-            text: challengeC.challengeName
+            font.bold: true
+            text: lightningFast.challengeName
         }
     }
 }
 
-
-
+/*##^##
+Designer {
+    D{i:0;autoSize:true;height:480;width:640}
+}
+##^##*/

@@ -15,6 +15,8 @@ Item {
         width: height * 2
         font.pixelSize: height
         text: root.percentage + "%"
+        font.bold: true
+        color: "white"
     }
 
     Item {
@@ -27,7 +29,7 @@ Item {
         height: root.height
 
         property color fillColor: "green"
-        property color emptyColor: "lightgrey"
+        property color emptyColor: "#eeeeee"
         property int radius: 4
 
         Rectangle {

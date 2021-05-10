@@ -15,7 +15,17 @@ Item { // size controlled by width
 //    }
 
 // public
-    property variant headerModel: []
+    property variant headerModel: [{
+            "text": "Rank",
+            "width": 0.20
+        }, {
+            "text": "Name",
+            "width": 0.60
+        }, {
+            "text": "Score",
+            "width": 0.20
+    }]
+
     property variant dataModel: []
 
 // private
@@ -26,7 +36,7 @@ Item { // size controlled by width
         id: header
         width: root.width
         height: 30
-        color: "orange"
+        color: "gold"
         radius: 0.02 * root.width
 
         Rectangle { // half height to cover bottom rounded corners
@@ -49,6 +59,7 @@ Item { // size controlled by width
                 Text {
                     x: 0.03 * header.width
                     y: 0.03 * header.height
+                    font.bold: true
                     text: modelData.text
                     anchors.verticalCenter: parent.verticalCenter
                     font.pixelSize: 0.8 * header.height

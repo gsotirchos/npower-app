@@ -1,6 +1,8 @@
 #include "backend.hpp"
 
 #include <iostream>
+#include <vector>
+#include <filesystem>
 
 
 namespace Backend {
@@ -13,7 +15,8 @@ Controller::Controller()
       speed{0},
       max_speed{0},
       power{0},
-      power_target{0},
+      energy_target{0},
+      challenge_finished{false},
       charge_percentage{50},
       challenge_type{""},
       worst_score{0},
@@ -52,8 +55,8 @@ bool Controller::targetReached() {
         reached = true;
     }
 
-    if (power_target) {
-        if (power < power_target) {
+    if (energy_target) {
+        if (energy < energy_target) {
             reached = false;
         } else {
             std::cout << "- POWER TARGET REACHED" << std::endl;
@@ -105,10 +108,16 @@ void Controller::setPower(float value) {
     std::cout << "- POWER: " << power << std::endl;
 }
 
-void Controller::setPowerTarget(float value) {
-    power_target = value;
-    emit powerTargetChanged(power_target);
-    std::cout << "- POWER TARGET: " << power_target << std::endl;
+void Controller::setEnergy(float value) {
+    energy = value;
+    emit energyChanged(energy);
+    std::cout << "- ENERGY: " << energy << std::endl;
+}
+
+void Controller::setEnergyTarget(float value) {
+    energy_target = value;
+    emit energyTargetChanged(energy_target);
+    std::cout << "- POWER TARGET: " << energy_target << std::endl;
 }
 
 void Controller::startBatteryMonitor() {
@@ -179,6 +188,27 @@ void Controller::closeLeaderboard() {
 void Controller::saveScore(QString name) {
     leaderboard->insertRecord(name.toUtf8().constData());
     emit scoresChanged(scores);
+}
+
+void Controller::deleteDatabases() {
+    vector<string> files{
+        "max_power.db",
+        "max_speed.db",
+        "lightning_fast.db"
+    };
+
+    for (auto & file : files) {
+        try {
+            if (std::filesystem::remove(file)) {
+                std::cout << "- DELETED: " << file << std::endl;
+            } else {
+                std::cout << "- NOT DELETED: " << file << std::endl;
+            }
+        }
+        catch(const std::filesystem::filesystem_error & err) {
+            std::cerr << "Filesystem error: " << err.what() << std::endl;
+        }
+    }
 }
 
 }  // namespace Backend

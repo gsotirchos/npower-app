@@ -2,31 +2,35 @@ import QtQuick 2.12
 import QtQuick.Controls 2.5
 
 Page {
-    property alias challengeName: name.text
-    property alias challengeDescription: description.text
+    id: page
+    property string challengeName: ""
+    property string challengeDescription: ""
     property string challengeType: ""
-    property int targetIndex: 0
+    property int mainIndex: 0
     property var infoOrder: []
 
-    Label {
-        id: name
-        anchors.bottom: description.top
-        anchors.bottomMargin: 20
-        anchors.horizontalCenter: parent.horizontalCenter
-        font.pixelSize: Qt.application.font.pixelSize * 2
-        padding: 10
-    }
-
-    Label {
-        id: description
+    Item {
+        width: 370
+        height: 250
         anchors.centerIn: parent
-    }
 
-    SelectButton {
-        id: selectButton
-        anchors.top: description.bottom
-        anchors.topMargin: 20
-        anchors.horizontalCenter: parent.horizontalCenter
+        SelectButton {
+            id: selectButton
+            anchors.top: parent.top
+            anchors.topMargin: 0
+            width: parent.width
+            anchors.bottom: highScoresButton.top
+            anchors.bottomMargin: 15
+        }
+
+        HighScoresButton {
+            id: highScoresButton
+            width: 200
+            height: 50
+            anchors.bottom: parent.bottom
+            anchors.topMargin: 0
+            anchors.horizontalCenter: parent.horizontalCenter
+        }
     }
 }
 

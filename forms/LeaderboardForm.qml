@@ -3,31 +3,45 @@ import QtQuick.Controls 2.5
 
 Page {
     id: leaderboardForm
-    title: stackView.selectedChallenge + " - High Scores"
+    title: stackView.selectedChallenge + ": High Scores"
 
     MouseArea {
+        id: mouseArea
         anchors.fill: parent
         onClicked: forceActiveFocus()
 
         Label {
-            id: enterNameLabel
-            anchors.bottom: nameField.top
-            anchors.bottomMargin: 10
-            anchors.horizontalCenter: parent.horizontalCenter
-            font.pixelSize: Qt.application.font.pixelSize * 1.5
-            text: "Enter your name:"
+            id: insertNameLabel
+            anchors.top: parent.top
+            anchors.topMargin: 10
             anchors.horizontalCenterOffset: 0
+            anchors.horizontalCenter: parent.horizontalCenter
+
+            font.pixelSize: Qt.application.font.pixelSize * 1.5
+            text: controller.canSaveScore ? qsTr("New High Score! Insert your name:") : qsTr("No new High Score... Try Again!")
+        }
+
+        Label {
+            id: finalScore
+            anchors.verticalCenter: nameField.verticalCenter
+            anchors.right: nameField.left
+            anchors.rightMargin: 30
+
+            font.pixelSize: Qt.application.font.pixelSize * 2
+            text: stackView.measurements.contents[stackView.targetIndex]
+            color: controller.canSaveScore ? "green" : "red"
         }
 
         TextField {
             id: nameField
-            width: 200
-            height: 35
-            anchors.top: parent.top
-            anchors.topMargin: 75
+            width: 270
+            height: 50
+            anchors.top: insertNameLabel.bottom
+            anchors.topMargin: 10
             anchors.horizontalCenter: parent.horizontalCenter
 
             enabled: controller.canSaveScore
+            font.pixelSize: Qt.application.font.pixelSize * 1.5
             text: qsTr("")
             placeholderText: "Enter your name"
 
@@ -45,10 +59,9 @@ Page {
             }
         }
 
-
         SaveButton {
-            y: 148
-            text: "Save"
+            height: nameField.height
+            width: height*2
             anchors.verticalCenter: nameField.verticalCenter
             anchors.left: nameField.right
             anchors.leftMargin: 10
@@ -58,22 +71,10 @@ Page {
             width: parent.width * 0.90
             anchors.horizontalCenterOffset: 0
             anchors.bottom: parent.bottom
-            anchors.bottomMargin: 10
+            anchors.bottomMargin: 20
             anchors.top: nameField.bottom
             anchors.topMargin: 20
             anchors.horizontalCenter: parent.horizontalCenter
-
-            headerModel: [{
-                    "text"// widths must add to 1
-                    : "Rank",
-                    "width": 0.20
-                }, {
-                    "text": "Name",
-                    "width": 0.60
-                }, {
-                    "text": "Score",
-                    "width": 0.20
-                }]
 
             dataModel: controller.scores
         }

@@ -36,7 +36,7 @@ enum class ChallengeType {
 class Controller : public QObject {
     Q_OBJECT
 
-    Q_PROPERTY(int chargePercenage
+    Q_PROPERTY(int chargePercentage
         MEMBER charge_percentage
         NOTIFY chargePercentageChanged
     )
@@ -70,10 +70,19 @@ class Controller : public QObject {
         NOTIFY powerChanged
         WRITE setPower
     )
-    Q_PROPERTY(float powerTarget
-        MEMBER power_target
-        NOTIFY powerTargetChanged
-        WRITE setPowerTarget
+    Q_PROPERTY(float energy
+        MEMBER energy
+        NOTIFY energyChanged
+        WRITE setEnergy
+    )
+    Q_PROPERTY(float energyTarget
+        MEMBER energy_target
+        NOTIFY energyTargetChanged
+        WRITE setEnergyTarget
+    )
+    Q_PROPERTY(bool challengeIsFinished
+        MEMBER challenge_finished
+        NOTIFY challengeFinished
     )
     Q_PROPERTY(QString challengeType
         MEMBER challenge_type
@@ -101,7 +110,9 @@ class Controller : public QObject {
     float speed;
     float max_speed;
     float power;
-    float power_target;
+    float energy;
+    float energy_target;
+    bool challenge_finished;
 
     int charge_percentage;
     QString challenge_type;
@@ -120,7 +131,8 @@ class Controller : public QObject {
     void setSpeed(float value);
     void setMaxSpeed(float value);
     void setPower(float value);
-    void setPowerTarget(float value);
+    void setEnergy(float value);
+    void setEnergyTarget(float value);
 
   signals:
     void runBatteryMonitor(Controller * controller);
@@ -135,7 +147,9 @@ class Controller : public QObject {
     void speedChanged(float value);
     void maxSpeedChanged(float value);
     void powerChanged(float value);
-    void powerTargetChanged(float value);
+    void energyChanged(float value);
+    void energyTargetChanged(float value);
+    void challengeFinished(bool value);
 
   public slots:
     void startBatteryMonitor();
@@ -148,6 +162,7 @@ class Controller : public QObject {
     void closeLeaderboard();
 
     void saveScore(QString name);
+    void deleteDatabases();
 
   private:
     BatteryMonitor * batteryMonitor;

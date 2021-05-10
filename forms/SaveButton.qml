@@ -6,12 +6,15 @@ Button {
     id: selectButton
     property string challengeForm
 
+    font.pixelSize: Qt.application.font.pixelSize * 1.5
     text: qsTr("Save")
     enabled: controller.canSaveScore
 
     onClicked: {
         controller.saveScore(nameField.text)
-        //stackView.pop("ChallengeSelectionForm.ui.qml")
+        stackView.pop()
+        controller.closeLeaderboard()
+        stackView.pop("ChallengeSelectionForm.ui.qml")
     }
 }
 /*##^##

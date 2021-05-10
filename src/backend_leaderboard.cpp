@@ -8,6 +8,7 @@ namespace Backend {
 //// Leaderboard class ////
 Leaderboard::Leaderboard(Controller * the_controller)
     : controller{the_controller},
+      score{0},
       row{0},
       failed{-1},
       status{0}
@@ -17,7 +18,7 @@ Leaderboard::Leaderboard(Controller * the_controller)
         worst = "MIN";
         worst_order = "ASC";
         db_file = "max_power.db";
-        score = controller->power;
+        score = controller->energy;
     } else if (controller->challenge_type == "max speed") {
         worst = "MIN";
         worst_order = "ASC";
@@ -60,11 +61,16 @@ Leaderboard::Leaderboard(Controller * the_controller)
     readWorstScore();
 
     // set flag variable to enable/disable new records
-    if ((row >= max_rows)
-        || (score < controller->worst_score)) {
-        controller->can_save_score = false;
+    if (score > 0) {
+        if (row < max_rows) {
+            controller->can_save_score = true;
+        } else if (score > controller->worst_score) {
+            controller->can_save_score = true;
+        } else {
+            controller->can_save_score = false;
+        }
     } else {
-        controller->can_save_score = true;
+        controller->can_save_score = false;
     }
     emit controller->canSaveScoreChanged(controller->can_save_score);
 
@@ -101,8 +107,8 @@ int Leaderboard::contents_callback(
 ) {
     Leaderboard * leaderboard = static_cast<Leaderboard *>(data);
     leaderboard->row++;
-    const char* name = field[0] ? field[0] : "";
-    const char* score = field[1] ? field[1] : "";
+    const char * name = field[0] ? field[0] : "";
+    const char * score = field[1] ? field[1] : "";
     leaderboard->controller->scores << QVariant::fromValue(
         QVariantList{std::to_string(leaderboard->row).c_str(), name, score}
     );
@@ -173,10 +179,15 @@ int Leaderboard::showContents() {
 }
 
 int Leaderboard::insertRecord(string new_name) {
+    // format score to single decimal float
+    char * str_score;
+    std::sprintf(str_score, "%.2f", score);
+    std::sscanf(str_score, "%f", &score);
+
     // insert entry
-    std::cout << "Inserting: NAME: " << new_name << " SCORE: " << score << endl;
+    std::cout << "Inserting: NAME: " << new_name << " SCORE: " << str_score << endl;
     string insert_cmd = (
-        "INSERT INTO players VALUES('" + new_name + "', " + std::to_string(score) + ");"
+        "INSERT INTO players VALUES('" + new_name + "', " + str_score + ");"
     );
     status = sqlite3_exec(db, insert_cmd.c_str(), nullptr, nullptr, &messageError);
 
@@ -205,6 +216,10 @@ int Leaderboard::cleanUpRecords() {
 
         return -1;
     }
+
+    // update data
+    readContents();
+    readWorstScore();
 
     // delete worst excess rows
     if (row > max_rows) {

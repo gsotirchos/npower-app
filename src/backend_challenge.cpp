@@ -15,7 +15,7 @@ Challenge::~Challenge() {
     std::cout << "- CHALLENGE QTHREAD DESTROYED" << std::endl;
 }
 
-void Challenge::start(Controller* controller) {
+void Challenge::start(Controller * controller) {
     static int const delay_s = 1;
 
     std::cout << "- CHALLENGE STARTED" << std::endl;
@@ -29,22 +29,22 @@ void Challenge::start(Controller* controller) {
             && controller->challenge_monitor_on) {
         std::this_thread::sleep_for(std::chrono::seconds(delay_s));
 
-        controller->time++;
-        emit controller->timeChanged(controller->time);
-
-        controller->remaining_time--;
-        emit controller->remainingTimeChanged(controller->remaining_time);
+        controller->setTime(++controller->time);
+        controller->setRemainingTime(--controller->remaining_time);
     }
+
+    controller->setTime(--controller->time);
 
     // wait for Posix threads to finish
     t_steps.join();
     t_power.join();
 
+    emit controller->challengeFinished(controller->challenge_finished);
     std::cout << "- CHALLENGE FINISHED" << std::endl;
 }
 
 // function to monitor steps
-void Challenge::monitorStepsPThread(Controller* controller) {
+void Challenge::monitorStepsPThread(Controller * controller) {
     static int const delay_us = 30;
     int n = 0;
     int new_value = controller->hallSensor->readValue();
@@ -56,18 +56,16 @@ void Challenge::monitorStepsPThread(Controller* controller) {
 
         // register step when sensor reading changes from high to low
         if ((new_value < previous_value)
-            && (n*delay_us > 200)) {  // ignore rapid motion/noise
-            controller->steps++;
-            emit controller->stepsChanged(controller->steps);
+            && (n * delay_us > 200)) {  // ignore rapid motion / noise
+            controller->setSteps(++controller->steps);
 
-            // calculate speed = 1/[duration of  1 step] (rpm)
-            controller->speed = 60.0/(n*delay_us/1000.0);
-            emit controller->speedChanged(controller->speed);
+            // calculate speed = 1 / [duration of  1 step] (rpm)
+            controller->setSpeed(60.0 / (n * delay_us / 1000.0));
 
             if (controller->speed > controller->max_speed) {
-                controller->max_speed = controller->speed;
-                emit controller->maxSpeedChanged(controller->max_speed);
+                controller->setMaxSpeed(controller->speed);
             }
+
             n = 0;
         } else {
             n++;
@@ -78,17 +76,21 @@ void Challenge::monitorStepsPThread(Controller* controller) {
     }
 }
 
-void Challenge::monitorPowerPThread(Controller* controller) {
+void Challenge::monitorPowerPThread(Controller * controller) {
     static int const delay_us = 300;
 
     while (not controller->targetReached()
             && controller->challenge_monitor_on) {
-        // register only positive values (generated power)
-        float current = controller->wattmeter->current();
-        float power = controller->wattmeter->power()/1000.0;
+        float current = controller->wattmeter->current();  // mA
+        float power = controller->wattmeter->power();  // mW
+
+        // store power
+        controller->setPower(power / 1000.0);  // W
+
+        // register only positive (generated) energy values
         if (current > 0.0) {
-            controller->power += power;
-            emit controller->powerChanged(controller->power);
+            float d_energy = power / 3600.0 * delay_us / 1000.0;  // mWh
+            controller->setEnergy(controller->energy + d_energy);
         }
 
         std::this_thread::sleep_for(std::chrono::milliseconds(delay_us));

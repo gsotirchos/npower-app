@@ -20,7 +20,7 @@ BatteryMonitor::~BatteryMonitor() {
     std::cout << "- BATTERY MONITOR DESTROYED" << std::endl;
 }
 
-void BatteryMonitor::start(Controller* controller) {
+void BatteryMonitor::start(Controller * controller) {
     static int const delay_s = 2;
     static float const max_oc_voltage = 13.4;
     static float const min_oc_voltage = 11.8;
@@ -38,7 +38,7 @@ void BatteryMonitor::start(Controller* controller) {
         if ((current > min_oc_current)
             && (current < max_oc_current)) {
             percentage =
-                100*(voltage - min_oc_voltage)
+                100 * (voltage - min_oc_voltage)
                     /(max_oc_voltage - min_oc_voltage);
             percentage = min(max(0, percentage), 100);
             controller->charge_percentage = percentage;
