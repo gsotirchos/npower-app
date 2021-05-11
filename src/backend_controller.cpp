@@ -188,7 +188,7 @@ void Controller::closeLeaderboard() {
 }
 
 void Controller::saveScore(QString name) {
-    leaderboard->insertRecord(name.toUtf8().constData());
+    leaderboard->insertRecord(string{name.toUtf8().constData()});
     emit scoresChanged(scores);
 }
 

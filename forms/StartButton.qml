@@ -46,7 +46,7 @@ Button {
         } else {
             controller.openLeaderboard()
             if (controller.canSaveScore) {
-                controller.saveScore("")
+                controller.saveScore()
             }
             stackView.replace("LeaderboardForm.qml")
         }

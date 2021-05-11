@@ -58,7 +58,7 @@ float Wattmeter::supply_voltage() {
 }
 
 float Wattmeter::current() {
-    float current = rand()%1000*1.0;
+    float current = 1000 - rand()%2000*1.0;
     cout << "[FAKE] CURRENT: " << current << endl;
     return current;
 }

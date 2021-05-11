@@ -30,7 +30,7 @@ Button {
         controller.challengeType = challengeType
 
         if (challengeType == "max power") {
-            controller.remainingTime = 1
+            controller.remainingTime = 30
             controller.energyTarget = 0
             stackView.mainIndex = 0
             stackView.targetIndex = 2

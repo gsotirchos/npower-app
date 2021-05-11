@@ -1,6 +1,8 @@
 #include "backend.hpp"
 
 #include <iostream>
+#include <iomanip>
+#include <sstream>
 
 
 namespace Backend {
@@ -61,17 +63,22 @@ Leaderboard::Leaderboard(Controller * the_controller)
     readWorstScore();
 
     // set flag variable to enable/disable new records
-    if (score > 0) {
-        if (row < max_rows) {
-            controller->can_save_score = true;
-        } else if (score > controller->worst_score) {
-            controller->can_save_score = true;
-        } else {
-            controller->can_save_score = false;
-        }
+    if (row < max_rows) {
+        controller->can_save_score = true;
+    } else if ((worst == "MIN")
+        && (score > controller->worst_score)) {
+        controller->can_save_score = true;
+    } else if ((worst == "MAX")
+        && (score < controller->worst_score)) {
+        controller->can_save_score = true;
     } else {
         controller->can_save_score = false;
     }
+
+    if (score <= 0) {
+        controller->can_save_score = false;
+    }
+
     emit controller->canSaveScoreChanged(controller->can_save_score);
 
     std::cout << "LEADERBOARD CREATED" << std::endl;
@@ -179,15 +186,15 @@ int Leaderboard::showContents() {
 }
 
 int Leaderboard::insertRecord(string new_name) {
-    // format score to single decimal float
-    char * str_score;
-    std::sprintf(str_score, "%.2f", score);
-    std::sscanf(str_score, "%f", &score);
+    // format score to string
+    std::stringstream score_sstream;
+    score_sstream << std::fixed << std::setprecision(2) << score;
+    string score_string = score_sstream.str();
 
     // insert entry
-    std::cout << "Inserting: NAME: " << new_name << " SCORE: " << str_score << endl;
+    std::cout << "Inserting: NAME: " << new_name << " SCORE: " << score_string << endl;
     string insert_cmd = (
-        "INSERT INTO players VALUES('" + new_name + "', " + str_score + ");"
+        "INSERT INTO players VALUES('" + new_name + "', " + score_string + ");"
     );
     status = sqlite3_exec(db, insert_cmd.c_str(), nullptr, nullptr, &messageError);
 

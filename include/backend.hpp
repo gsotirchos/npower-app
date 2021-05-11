@@ -161,7 +161,7 @@ class Controller : public QObject {
     void openLeaderboard();
     void closeLeaderboard();
 
-    void saveScore(QString name);
+    void saveScore(QString name = "");
     void deleteDatabases();
 
   private:

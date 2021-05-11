@@ -28,7 +28,7 @@ Item {
         anchors.verticalCenter: root.verticalCenter
         height: root.height
 
-        property color fillColor: "green"
+        property color fillColor: root.percentage > 20 ? "green" : "orange"
         property color emptyColor: "#eeeeee"
         property int radius: 4
 
@@ -64,7 +64,8 @@ Item {
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
                     anchors.leftMargin: padding
-                    width: batteryBody.visualPosition * batteryBody.width - 2 * padding
+                    width: (root.percentage / 100 * batteryBody.width)
+                           * (batteryBody.width - 2 * padding) / batteryBody.width
                     height: batteryBody.height - 2 * padding
                     color: batteryIndicatorIcon.fillColor
                     radius: batteryBody.background.radius * 0.75
