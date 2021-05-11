@@ -11,10 +11,12 @@ Button {
     enabled: controller.canSaveScore
 
     onClicked: {
-        controller.saveScore(nameField.text)
-        stackView.pop()
-        controller.closeLeaderboard()
-        stackView.pop("ChallengeSelectionForm.ui.qml")
+        if (nameField.text != "") {
+            controller.saveScore(nameField.text)
+            stackView.pop()
+            controller.closeLeaderboard()
+            stackView.pop("ChallengeSelectionForm.ui.qml")
+        }
     }
 }
 /*##^##

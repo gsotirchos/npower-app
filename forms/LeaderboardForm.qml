@@ -44,6 +44,7 @@ Page {
             font.pixelSize: Qt.application.font.pixelSize * 1.5
             text: qsTr("")
             placeholderText: "Enter your name"
+            validator: RegExpValidator { regExp: /[^']+/ }
 
             onActiveFocusChanged: {
                if(activeFocus) {
