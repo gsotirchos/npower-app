@@ -14,21 +14,21 @@ Page {
             id: maxPower
             challengeName: qsTr("Max Power")
             challengeType: "max power"
-            challengeDescription: qsTr("You are on Challenge A.")
+            challengeDescription: qsTr("Generate as much power as you\ncan in half a minute!")
         }
 
         ChallengeInfoForm {
             id: maxSpeed
             challengeName: qsTr("Max Speed")
             challengeType: "max speed";
-            challengeDescription: qsTr("You are on Challenge B.")
+            challengeDescription: qsTr("Hit maximum speed\nin only 15 seconds!")
         }
 
         ChallengeInfoForm {
             id: lightningFast
             challengeName: qsTr("Lightning Fast 10mWh")
             challengeType: "lightning fast"
-            challengeDescription: qsTr("You are on Challenge C.")
+            challengeDescription: qsTr("See how fast you can generate\n10mWh of energy!")
         }
     }
 

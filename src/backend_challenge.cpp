@@ -82,13 +82,13 @@ void Challenge::monitorPowerPThread(Controller * controller) {
     while (not controller->targetReached()
             && controller->challenge_monitor_on) {
         float current = controller->wattmeter->current();  // mA
-        float power = controller->wattmeter->power();  // mW
-
-        // store power
-        controller->setPower(power / 1000.0);  // W
 
         // register only positive (generated) energy values
         if (current > 0.0) {
+            // store power
+            float power = controller->wattmeter->power();  // mW
+            controller->setPower(power / 1000.0);  // W
+
             float d_energy = power / 3600.0 * delay_us / 1000.0;  // mWh
             controller->setEnergy(controller->energy + d_energy);
         }

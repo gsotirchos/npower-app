@@ -12,16 +12,42 @@ Button {
         Label {
             id: name
             text: challengeName
+            font.pixelSize: Qt.application.font.pixelSize * 2.5
+            color: "white"
+            opacity: selectButton.down ? 0.6 : 0.8
             anchors.verticalCenterOffset: -height
             anchors.centerIn: parent
-            font.pixelSize: Qt.application.font.pixelSize * 2
         }
+
         Label {
             id: description
             text: challengeDescription
+            font.pixelSize: Qt.application.font.pixelSize * 1.5
+            color: "white"
+            opacity: selectButton.down ? 0.6 : 0.8
+            horizontalAlignment: Text.AlignHCenter
             anchors.horizontalCenter: name.horizontalCenter
             anchors.top: name.bottom
             anchors.topMargin: 20
+        }
+    }
+
+    background: Rectangle {
+        radius: height * 0.2
+        color: {
+            switch (challengeType) {
+            case "max power":
+                selectButton.down ? "#1A517F" : "#20639B"
+                break;
+            case "max speed":
+                selectButton.down ? "#308C83" : "#3CAEAE";
+                break;
+            case "lightning fast":
+                selectButton.down ? "#BFA61F" : "#D5B922"
+                break;
+            default:
+                selectButton.down ? "#1A517F" : "#20639B"
+            }
         }
     }
 

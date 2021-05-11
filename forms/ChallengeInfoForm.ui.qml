@@ -10,8 +10,8 @@ Page {
     property var infoOrder: []
 
     Item {
-        width: 370
-        height: 250
+        width: 430
+        height: 270
         anchors.centerIn: parent
 
         SelectButton {

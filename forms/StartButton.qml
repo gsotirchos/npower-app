@@ -18,7 +18,7 @@ Button {
     }
 
     background: Rectangle {
-        radius: width * 0.2
+        radius: height * 0.3
         color: {
             switch (text) {
             case "3":
@@ -30,16 +30,17 @@ Button {
                 "green";
                 break;
             case "High Scores":
-                "gold";
+                startButton.down ? "#E5BF00" : "#FFD400"
                 break;
             default:
-                startButton.down ? "blue" : "lightblue";
+                startButton.down ? "#0088CC" : "#0099E5";
             }
         }
     }
 
     onClicked: {
         if (text == "START") {
+            width = 80
             countdown = 3
             text = countdown
             enabled = false

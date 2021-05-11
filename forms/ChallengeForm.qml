@@ -16,19 +16,70 @@ Page {
         text: stackView.measurements.contents[stackView.mainIndex]
     }
 
-    Label {
+    Grid {
         id: info
         anchors.centerIn: parent
-        font.pixelSize: Qt.application.font.pixelSize * 1.5
-        text: stackView.measurements.names[stackView.infoOrder[0]]
-              + ": " + stackView.measurements.contents[stackView.infoOrder[0]]
-              + "\n" + stackView.measurements.names[stackView.infoOrder[1]]
-              + ": " + stackView.measurements.contents[stackView.infoOrder[1]]
-              + "\n" + stackView.measurements.names[stackView.infoOrder[2]]
-              + ": " + stackView.measurements.contents[stackView.infoOrder[2]]
-              + "\n" + stackView.measurements.names[stackView.infoOrder[3]]
-              + ": " + stackView.measurements.contents[stackView.infoOrder[3]]
+        columns: 2
+        spacing: 5
+        property double fontScale: 1.5
+        property int leftWidth: 100
+        verticalItemAlignment: Grid.AlignVCenter
+
+        Label {
+            width: parent.leftWidth
+            horizontalAlignment: Text.AlignRight
+            font.pixelSize: Qt.application.font.pixelSize * parent.fontScale
+            text: stackView.measurements.names[stackView.infoOrder[0]] + ": "
+        }
+        Label {
+            font.pixelSize: Qt.application.font.pixelSize * parent.fontScale
+            text: stackView.measurements.contents[stackView.infoOrder[0]]
+        }
+        Label {
+            width: parent.leftWidth
+            horizontalAlignment: Text.AlignRight
+            font.pixelSize: Qt.application.font.pixelSize * parent.fontScale
+            text: stackView.measurements.names[stackView.infoOrder[1]] + ": "
+        }
+        Label {
+            font.pixelSize: Qt.application.font.pixelSize * parent.fontScale
+            text: stackView.measurements.contents[stackView.infoOrder[1]]
+        }
+        Label {
+            width: parent.leftWidth
+            horizontalAlignment: Text.AlignRight
+            font.pixelSize: Qt.application.font.pixelSize * parent.fontScale
+            text: stackView.measurements.names[stackView.infoOrder[2]] + ": "
+        }
+        Label {
+            font.pixelSize: Qt.application.font.pixelSize * parent.fontScale
+            text: stackView.measurements.contents[stackView.infoOrder[2]]
+        }
+        Label {
+            width: parent.leftWidth
+            horizontalAlignment: Text.AlignRight
+            font.pixelSize: Qt.application.font.pixelSize * parent.fontScale
+            text: stackView.measurements.names[stackView.infoOrder[3]] + ": "
+        }
+        Label {
+            font.pixelSize: Qt.application.font.pixelSize * parent.fontScale
+            text: stackView.measurements.contents[stackView.infoOrder[3]]
+        }
     }
+
+//    Label {
+//        id: info
+//        anchors.centerIn: parent
+//        font.pixelSize: Qt.application.font.pixelSize * 1.5
+//        text: stackView.measurements.names[stackView.infoOrder[0]]
+//              + ": " + stackView.measurements.contents[stackView.infoOrder[0]]
+//              + "\n" + stackView.measurements.names[stackView.infoOrder[1]]
+//              + ": " + stackView.measurements.contents[stackView.infoOrder[1]]
+//              + "\n" + stackView.measurements.names[stackView.infoOrder[2]]
+//              + ": " + stackView.measurements.contents[stackView.infoOrder[2]]
+//              + "\n" + stackView.measurements.names[stackView.infoOrder[3]]
+//              + ": " + stackView.measurements.contents[stackView.infoOrder[3]]
+//    }
 
     StartButton {
         id: startButton

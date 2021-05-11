@@ -3,7 +3,7 @@ import QtQuick.Controls 2.5
 
 
 Button {
-    id: selectButton
+    id: highScoresButton
 
     contentItem: Item {
         id: buttonContents
@@ -11,9 +11,15 @@ Button {
 
         Label {
             text: qsTr("High Scores")
+            color: highScoresButton.down ? "lightgray" : "white"
             anchors.centerIn: parent
             font.pixelSize: Qt.application.font.pixelSize * 2
         }
+    }
+
+    background: Rectangle {
+        radius: height * 0.2
+        color: highScoresButton.down ? "#E5BF00" : "#FFD400"
     }
 
     onClicked: {
