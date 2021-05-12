@@ -18,9 +18,11 @@ Page {
 
     Grid {
         id: info
-        anchors.centerIn: parent
+        anchors.verticalCenter: parent.verticalCenter
         columns: 2
         spacing: 5
+        anchors.left: parent.left
+        anchors.leftMargin: parent.width * 0.5 - leftWidth * 1.3
         property double fontScale: 1.5
         property int leftWidth: 100
         verticalItemAlignment: Grid.AlignVCenter
@@ -30,6 +32,7 @@ Page {
             horizontalAlignment: Text.AlignRight
             font.pixelSize: Qt.application.font.pixelSize * parent.fontScale
             text: stackView.measurements.names[stackView.infoOrder[0]] + ": "
+            color: "#707070"
         }
         Label {
             font.pixelSize: Qt.application.font.pixelSize * parent.fontScale
@@ -40,6 +43,7 @@ Page {
             horizontalAlignment: Text.AlignRight
             font.pixelSize: Qt.application.font.pixelSize * parent.fontScale
             text: stackView.measurements.names[stackView.infoOrder[1]] + ": "
+            color: "#707070"
         }
         Label {
             font.pixelSize: Qt.application.font.pixelSize * parent.fontScale
@@ -50,6 +54,7 @@ Page {
             horizontalAlignment: Text.AlignRight
             font.pixelSize: Qt.application.font.pixelSize * parent.fontScale
             text: stackView.measurements.names[stackView.infoOrder[2]] + ": "
+            color: "#707070"
         }
         Label {
             font.pixelSize: Qt.application.font.pixelSize * parent.fontScale
@@ -60,6 +65,7 @@ Page {
             horizontalAlignment: Text.AlignRight
             font.pixelSize: Qt.application.font.pixelSize * parent.fontScale
             text: stackView.measurements.names[stackView.infoOrder[3]] + ": "
+            color: "#707070"
         }
         Label {
             font.pixelSize: Qt.application.font.pixelSize * parent.fontScale
