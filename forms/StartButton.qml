@@ -57,7 +57,6 @@ Button {
     Connections {
         target: controller
         onChallengeFinished: {
-            console.log("[LOG] FINISHED")
             width = 270
             text = "High Scores"
             enabled = true
